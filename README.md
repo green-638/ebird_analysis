@@ -13,4 +13,4 @@ Download load_data.py and install the libraries specified above in python 3.14.3
 The script will make a request for each specified region code. If a region code is invalid, the CSV will be updated with all regions requested prior to invalid region. 
 <br>
 <br>
-Note that API responses are limited to 10,000 results, so one request may not be enough to collect all data from a region. This effect is compounded by shared eBird checklists creating duplicate checklists for each eBird user. To mitigate this effect, consider collecting smaller sets of data and combining them afterwards. For example, data from Texas within the last 30 days could be collected by requesting data from each county in a range of 10 days three times.
+Note that API responses are limited to 10,000 results, so one request may not be enough to collect all data from a region. This effect is compounded by shared eBird checklists creating duplicate checklists for each eBird user. To mitigate this effect, consider collecting smaller sets of data and combining them afterwards. For example, data from Texas could be collected by requesting data from each county.
