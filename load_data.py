@@ -68,3 +68,5 @@ for report in all_responses:
     
 df = df.drop_duplicates(keep='last', ignore_index=True)
 df.to_csv('/Volumes/Crucial 1TB SSD/datasets/ebird/ebirddata.csv')
+
+print('Data load complete')
