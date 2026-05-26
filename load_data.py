@@ -7,7 +7,7 @@ import pandas as pd
 # initialize csv with column names
 def create_csv(path):
     with open(path, 'a') as f:
-        f.write('checklist_id,species_code,species_name,loc_id,loc_name,date,quantity,subnational1,subnational2,first_name,last_name')
+        f.write('checklist_id,species_code,species_name,loc_id,loc_name,date,quantity,country,subnational1,subnational2,first_name,last_name')
 
 
 # input api key
@@ -87,6 +87,7 @@ for report in all_responses:
                       'loc_name': [report['locName']],
                       'date': [report['obsDt']],
                       'quantity': [report['howMany']],
+                      'country': [report['countryName']],
                       'subnational1': [report['subnational1Name']],
                       'subnational2': [report['subnational2Name']],
                       'first_name': [report['firstName']],
