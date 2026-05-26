@@ -73,6 +73,11 @@ for report in all_responses:
   # add 'X' to reports with no species quantity
   if 'howMany' not in keys:
     report['howMany'] = 'X'
+  # mark subnational1 and subnational2 as N/A when necessary
+  if 'subnational1Name' not in keys:
+    report['subnational1Name'] = 'N/A'
+  if 'subnational2Name' not in keys:
+    report['subnational2Name'] = 'N/A'
     
   # create new row
   row = pd.DataFrame({'checklist_id': [report['subId']],
