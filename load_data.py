@@ -1,53 +1,76 @@
-from dotenv import load_dotenv
 import os
+import sys
 import requests
 import json
 import pandas as pd 
 
 # initialize csv with column names
-def create_csv():
-    with open('/Volumes/Crucial 1TB SSD/datasets/ebird/ebirddata.csv', 'a') as f:
+def create_csv(path):
+    with open(path, 'a') as f:
         f.write('checklist_id,species_code,species_name,loc_id,loc_name,date,quantity,subnational1,subnational2,first_name,last_name')
 
 
-# load env file
-load_dotenv()
+# input api key
+token = input('eBird API key: ')
+# test request
+url = 'https://api.ebird.org/v2/ref/region/info/US-MD'
+payload={}
+headers = {
+  'X-eBirdApiToken': token
+}
+# get request status code
+status_code = requests.request("GET", url, headers=headers, data=payload).status_code
+# exit program if invalid
+if status_code != 200:
+  print('Invalid key')
+  sys.exit()
 
-# get token from .env
-token = os.getenv('ebirdtoken')
-# assign locations to pull data from
-locations = ['US-MD', 'US-DC', 'US-DE', 'US-VA']
-# hold api responses
+# input locations to pull data from
+locations = input('Region codes, separated by commas (e.g. US,US-MD,US-MD-005,L295658): ').split(',')
+
+# input how many days back to pull data from
+days = int(input('# of days back to pull data from (<=30): '))
+if days > 30:
+  print('Reports cannot be over 30 days old')
+  sys.exit()
+
+
 all_responses = []
-
 # api call
 for loc in locations:
-  url = f'https://api.ebird.org/v2/data/obs/{loc}/recent/notable?back=30&detail=full'
-  payload={}
+  url = f'https://api.ebird.org/v2/data/obs/{loc}/recent/notable?back={days}&detail=full'
   headers = {
     'X-eBirdApiToken': token
   }
-
-  response = json.loads(requests.request("GET", url, headers=headers, data=payload).text)
-  all_responses += response
+  
+  response = requests.request("GET", url, headers=headers, data=payload)
+  # get request status code
+  status_code = response.status_code
+  # exit program if invalid
+  if status_code != 200:
+    print(f'"{loc}" is an invalid region code')
+    sys.exit()
+    
+  resp_json = json.loads(response.text)
+  all_responses += resp_json
   
   
-# initialize csv
+# initialize csv if empty or doesn't exist
+path = input('CSV path: ')
 # if file exists
-if os.path.isfile('/Volumes/Crucial 1TB SSD/datasets/ebird/ebirddata.csv'):
+if os.path.isfile(path):
     # if file is empty
-    if os.path.getsize('/Volumes/Crucial 1TB SSD/datasets/ebird/ebirddata.csv') == 0:
-        create_csv()
+    if os.path.getsize(path) == 0:
+        create_csv(path)
 else:
-    create_csv()
+    create_csv(path)
   
 
-df = pd.read_csv('/Volumes/Crucial 1TB SSD/datasets/ebird/ebirddata.csv')
-
+df = pd.read_csv(path)
 # iterate through each location's reports
 for report in all_responses:
   keys = report.keys()
-  # add X to reports with no species quantity
+  # add 'X' to reports with no species quantity
   if 'howMany' not in keys:
     report['howMany'] = 'X'
     
@@ -67,6 +90,6 @@ for report in all_responses:
   df = pd.concat([df, row], ignore_index=True)    
     
 df = df.drop_duplicates(keep='last', ignore_index=True)
-df.to_csv('/Volumes/Crucial 1TB SSD/datasets/ebird/ebirddata.csv')
+df.to_csv(path)
 
 print('Data load complete')
