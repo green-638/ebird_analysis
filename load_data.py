@@ -66,7 +66,7 @@ for loc in locations:
     # update CSV if changes were made
     if loc_num > 0:
       df = df.drop_duplicates(keep='last', ignore_index=True)
-      df.to_csv(path)
+      df.to_csv(path, index=False)
       print(f'Partial data load complete. Following regions loaded: {locations[:loc_num]}')
       
     sys.exit()
@@ -103,6 +103,6 @@ for loc in locations:
   loc_num += 1
     
 df = df.drop_duplicates(keep='last', ignore_index=True)
-df.to_csv(path)
+df.to_csv(path, index=False)
 
 print('Data load complete')
