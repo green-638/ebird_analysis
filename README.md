@@ -1,5 +1,5 @@
 # ebird_analysis
-This project creates a script that extracts rare bird alert data from the eBird API. The data is then analyzed with Excel.
+This repository provides a script that extracts rare bird alert data from the eBird API and outputs a CSV. An analysis with Excel is also included.
 
 ## Purpose
 This script is intended for individuals who want to identify patterns in when and where rare birds appear. Data requested by this script can be filtered by location and date, making it a lightweight alternative to eBird's complete dataset.
