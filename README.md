@@ -1,5 +1,8 @@
 # ebird_analysis
-This project creates a script that extracts data from the eBird API. The data is then analyzed with Excel.
+This project creates a script that extracts rare bird alert data from the eBird API. The data is then analyzed with Excel.
+
+## Purpose
+This script is intended for individuals who want to identify patterns in when and where rare birds appear. Data requested by this script can be filtered by location and date, making it a lightweight alternative to eBird's complete dataset.
 
 ## Requirements
 - python 3.14.3
@@ -13,4 +16,7 @@ Download load_data.py and install the libraries specified above in python 3.14.3
 The script will make a request for each specified region code. If a region code is invalid, the CSV will be updated with all regions requested prior to invalid region. 
 <br>
 <br>
-Note that API responses are limited to 10,000 results, so one request may not be enough to collect all data from a region. This effect is compounded by shared eBird checklists creating duplicate checklists for each eBird user. To mitigate this effect, consider collecting smaller sets of data and combining them afterwards. For example, data from Texas could be collected by requesting data from each county.
+Note that API responses are limited to 10,000 results, so one request may not be enough to collect all data from a region. This effect is compounded by shared eBird checklists creating duplicate checklists for each eBird user. To mitigate this effect, consider collecting smaller sets of data. For example, data from Texas could be collected by requesting data from each county.
+
+## eBird API key
+A personal eBird API key is required to use this script. One can be requested [here](https://ebird.org/api/keygen).
