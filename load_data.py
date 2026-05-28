@@ -42,8 +42,10 @@ if os.path.isfile(path):
     # if file is empty
     if os.path.getsize(path) == 0:
         create_csv(path)
+        print(f'Added column labels to CSV')
 else:
     create_csv(path)
+    print('Initialized CSV')
     
 df = pd.read_csv(path)
 
@@ -65,7 +67,7 @@ for loc in locations:
     print(f'"{loc}" is an invalid region code')
     # update CSV if changes were made
     if loc_num > 0:
-      df = df.drop_duplicates(keep='last', ignore_index=True)
+      df.drop_duplicates(subset=['checklist_id', 'species_name', 'first_name', 'last_name'], inplace=True)
       df.to_csv(path, index=False)
       print(f'Partial data load complete. Following regions loaded: {locations[:loc_num]}')
       
@@ -101,8 +103,9 @@ for loc in locations:
     df = pd.concat([df, row], ignore_index=True)    
   
   loc_num += 1
-    
-df = df.drop_duplicates(keep='last', ignore_index=True)
+
+df.drop_duplicates(subset=['checklist_id', 'species_name', 'first_name', 'last_name'], inplace=True)
+
 df.to_csv(path, index=False)
 
 print('Data load complete')
