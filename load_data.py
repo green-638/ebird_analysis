@@ -85,6 +85,11 @@ for loc in locations:
       report['subnational1Name'] = 'N/A'
     if 'subnational2Name' not in keys:
       report['subnational2Name'] = 'N/A'
+    # set name to blank if none
+    if 'firstName' not in keys:
+      report['firstName'] = ''
+    if 'lastName' not in keys:
+      report['lastName'] = ''
       
     # create new row
     row = pd.DataFrame({'checklist_id': [report['subId']],
